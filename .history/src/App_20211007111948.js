@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { gql, useApolloClient, useQuery } from '@apollo/client';
+import { gql, useQuery } from '@apollo/client';
 import Persons from './components/Persons';
 import PersonForm from './components/PersonForm';
 import { ALL_PERSONS } from './queries';
@@ -9,23 +9,16 @@ import LoginForm from './components/LoginForm';
 
 function App() {
   const { loading, data, error } = useQuery(ALL_PERSONS, {
-    //pollInterval: 2000,
+    pollInterval: 2000,
   });
   const [token, setToken] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
-  const client = useApolloClient();
   const handleError = (message) => {
     setErrorMessage(message);
     setTimeout(() => {
       setErrorMessage(null);
     }, 10000);
-  };
-
-  const logout = () => {
-    setToken(null);
-    localStorage.clear();
-    client.resetStore();
   };
 
   if (!token) {
@@ -45,7 +38,6 @@ function App() {
 
   return (
     <div className='App'>
-      <button onClick={logout}>Log Out</button>
       <Notify errorMessage={errorMessage} />
       <Persons persons={data.allPersons} />
       <PersonForm handleError={handleError} />

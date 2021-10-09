@@ -9,7 +9,7 @@ import LoginForm from './components/LoginForm';
 
 function App() {
   const { loading, data, error } = useQuery(ALL_PERSONS, {
-    //pollInterval: 2000,
+    pollInterval: 2000,
   });
   const [token, setToken] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -24,7 +24,7 @@ function App() {
 
   const logout = () => {
     setToken(null);
-    localStorage.clear();
+    localStorage.removeItem('gql-phone-token');
     client.resetStore();
   };
 
@@ -45,7 +45,6 @@ function App() {
 
   return (
     <div className='App'>
-      <button onClick={logout}>Log Out</button>
       <Notify errorMessage={errorMessage} />
       <Persons persons={data.allPersons} />
       <PersonForm handleError={handleError} />
