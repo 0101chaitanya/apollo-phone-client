@@ -76,5 +76,4 @@ export {
   EDIT_NUMBER,
   LOGIN,
   PERSON_DETAILS,
-  PERSON_ADDED,
 };
